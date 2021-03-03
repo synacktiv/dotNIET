@@ -6,14 +6,14 @@
 
 ![Alt text](./img/dotNIET_before_after.png?raw=true "Before After")
 
-*.NIET* is an IDA Pro plugin. Its purpose is to import missing symbols (usually few thousands) which are resolved at runtime by [.NET native](https://docs.microsoft.com/en-us/dotnet/framework/net-native/) compiled binaries. These symbols lie in ```SharedLibrary.dll``` and are not exported by this one.
+*.NIET* is an IDA Pro plugin. Its purpose is to import missing symbols (usually few thousands) which are resolved at runtime by [.NET Native](https://docs.microsoft.com/en-us/dotnet/framework/net-native/) compiled binaries. These symbols lie in ```SharedLibrary.dll``` and are not exported by this one.
 
 *.NIET* has been tested on IDA Pro 7.5 using python 3.8 on the following platforms:
 
 * Windows
 * Linux
 
-This plugin currently supports the following .NET native framework versions:
+This plugin currently supports the following .NET Native framework versions:
 
 * 1.3
 * 1.6
@@ -45,7 +45,7 @@ pip install pefile
 
 Because symbols are imported from ```SharedLibrary.dll```, this one must be provided to *.NIET* **along with its pdb** (its location is searched by the plugin within ```_NT_SYMBOL_PATH```).
 
-Helpers are implemented to identify .NET native framework versions and verifying that ```SharedLibrary.dll``` ```pdb``` exists within the configured symbols path.
+Helpers are implemented to identify .NET Native framework versions and verifying that ```SharedLibrary.dll``` ```pdb``` exists within the configured symbols path.
 
 ## Usage
 
@@ -53,25 +53,25 @@ Helpers are implemented to identify .NET native framework versions and verifying
 
 *.NIET* can be launch using shortcut ```Alt-Shift-N``` or through the ```Edit/Plugins``` menu.
 
-Upon launch, the plugin tries to identify current binary .NET native framework version. All you have to do is to select ```SharedLibrary.dll``` in the right version then click ```Run```.
+Upon launch, the plugin tries to identify current binary .NET Native framework version. All you have to do is to select ```SharedLibrary.dll``` in the right version then click ```Run```.
 
-*.NIET* will identify target dll .NET native framework version and prompt a message if versions are not the same. **Major and Minor version numbers are usually the only ones that matter.**
+*.NIET* will identify target dll .NET Native framework version and prompt a message if versions are not the same. **Major and Minor version numbers are usually the only ones that matter.**
 
 ## Functioning
 
-*.NIET* looks for .NET native custom import descriptors table within the ```.rdata``` section. To proceed so, it reads at specific offsets of a ```Custom Header``` structure then parses an ordinals array.
+*.NIET* looks for .NET Native custom import descriptors table within the ```.rdata``` section. To proceed so, it reads at specific offsets of a ```Custom Header``` structure then parses an ordinals array.
 
 This ordinals array points to various locations within a ```SharedLibrary.dll```'s custom table entries.
 
-Symbol resolution is achieved by launching an IDA Pro headless instance through its binary ```idat``` in order to parse to ```SharedLibrary.dll``` ```pdb```
+Symbol resolution is achieved by launching an IDA Pro headless instance through its binary ```idat``` in order to parse ```SharedLibrary.dll``` ```pdb```
 
 ## Imported symbols naming convention
 
 Symbols are imported as is if possible but some corner cases may be encountered:
 
 * sometimes imported addresses are solely ```jmpstubs``` symbols to offsets or single ```jmp``` instructions to symbols. Their symbol name is replaced by *.NIET* to the target function's name prepended with ```jmp_```
-* some addresses resolved by the .NET native runtime point to symbols after multiple derefences. If *.NIET* cannot find a symbol at an imported address it tries to dereference until it finds one. ```deref_X``` is appended to this symbol name, if found, with ```X``` being the number of derefs.
-* some addresses points to offsets within an ```EETableSection``` table. Being new to .NET native, I have no idea what this is (yet?) so these addresses are labeled ```EETableSection_XXX```, ```XXX``` being offsets from ```EETableSection``` within ```SharedLibrary.dll```
+* some addresses resolved by the .NET Native runtime point to symbols after multiple derefences. If *.NIET* cannot find a symbol at an imported address it tries to dereference until it finds one. ```deref_X``` is appended to this symbol name, if found, with ```X``` being the number of derefs.
+* some addresses points to offsets within an ```EETableSection``` table. Being new to .NET Native, I have no idea what this is (yet?) so these addresses are labeled ```EETableSection_XXX```, ```XXX``` being offsets from ```EETableSection``` within ```SharedLibrary.dll```
 
 ## Known limitations
 
