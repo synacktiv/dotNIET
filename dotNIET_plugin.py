@@ -124,14 +124,14 @@ class dotNIET():
         # ida generate a db
         os.remove(tmpdll + '.i64')
         # if everything went smoothly, we should not need this anymore
-        os .remove(tmplog)
+        os.remove(tmplog)
 
 
 class dotNIETForm_t(PluginForm):
     def cb_btn_run(self):
         if self.dotnet_version_full == "unknown":
             ida_kernwin.warning(".NET native framework could not be identified.\n"\
-                                    ".NIET needs it to work properly.")
+                                ".NIET needs it to work properly.")
             return
         # self.dotnet_version_full[:3] is "major.minor"
         if not self.dotnet_version_full[:3] in dotnet_versions_offsets:
