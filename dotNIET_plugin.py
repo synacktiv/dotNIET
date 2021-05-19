@@ -273,6 +273,7 @@ class dotNIETForm_t(PluginForm):
         layout.addWidget(label_sharedlibrary, 1, 0)
         layout.addWidget(self.dll_input_path, 2, 0)
         layout.addWidget(self.btn_browse, 2, 1)
+        spacerItem = QtWidgets.QSpacerItem(5, 16)
         layout.addItem(spacerItem)
         layout.addWidget(self.cb_restore, 4, 0)
         layout.addWidget(self.btn_run, 5, 0)
