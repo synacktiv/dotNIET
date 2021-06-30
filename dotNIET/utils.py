@@ -64,7 +64,7 @@ def find_pdb(dll_path):
             else:
                 return True
 
-def get_NET_native_version(filepath):
+def get_NET_Native_version(filepath):
     pe = pefile.PE(filepath, fast_load=True)
     pe.parse_data_directories(directories=[pefile.DIRECTORY_ENTRY['IMAGE_DIRECTORY_ENTRY_RESOURCE']])
 

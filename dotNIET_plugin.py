@@ -130,7 +130,7 @@ class dotNIET():
 class dotNIETForm_t(PluginForm):
     def cb_btn_run(self):
         if self.dotnet_version_full == "unknown":
-            ida_kernwin.warning(".NET native framework could not be identified.\n"\
+            ida_kernwin.warning(".NET Native framework could not be identified.\n"\
                                 ".NIET needs it to work properly.")
             return
         # self.dotnet_version_full[:3] is "major.minor"
@@ -157,13 +157,13 @@ class dotNIETForm_t(PluginForm):
             # target SharedLibrary.dll .NET framework version is asked to be checked
             if self.cb_verify.checkState() == QtCore.Qt.Checked:
                 ida_kernwin.show_wait_box("HIDECANCEL\nVerifying target dll "\
-                                          ".NET native framework version...")
-                dll_dotnet_version_full = utils.get_NET_native_version(self.dll_input_path.text())
+                                          ".NET Native framework version...")
+                dll_dotnet_version_full = utils.get_NET_Native_version(self.dll_input_path.text())
                 ida_kernwin.hide_wait_box()
                 if dll_dotnet_version_full == "unknown" \
                    or dll_dotnet_version_full != self.dotnet_version_full:
                     answer = ida_kernwin.ask_buttons("", "","", 1, "HIDECANCEL\n"\
-                                                    "Target dll .NET native "\
+                                                    "Target dll .NET Native "\
                                                     "framework version is '%s' "\
                                                     "whereas current binary one "\
                                                     "is '%s'.\nProceed anyway?" \
@@ -215,7 +215,7 @@ class dotNIETForm_t(PluginForm):
         self.cb_restore.move(20, 20)
         self.cb_restore.stateChanged.connect(self.cb_restore_toggle)
 
-        self.cb_verify = QtWidgets.QCheckBox("Verify target dll .NET native "\
+        self.cb_verify = QtWidgets.QCheckBox("Verify target dll .NET Native "\
                                              "framework version")
         self.cb_verify.move(20, 20)
         # default is checked
@@ -237,20 +237,20 @@ class dotNIETForm_t(PluginForm):
         self.btn_browse.setToolTip('Browse to "SharedLibrary.dll" location.')
         self.btn_browse.clicked.connect(self.cb_btn_browse)
 
-        # we try to guess .NET native framework version
+        # we try to guess .NET Native framework version
         ida_kernwin.show_wait_box("HIDECANCEL\nIdentifying .NET "\
-                                  "native framework version...")
-        dotnet_version_full_text = ".NET native framework version: "
+                                  "Native framework version...")
+        dotnet_version_full_text = ".NET Native framework version: "
         dotnet_version_full = "unknown"
         if not os.path.exists(idc.get_input_file_path()):
             ida_kernwin.warning("%s could not be found.\n.NIET must identify .NET"\
-                                " native framework version of the original binary "\
+                                " Native framework version of the original binary "\
                                 "in order to work properly."\
                                 % idc.get_input_file_path())
         else:
-            dotnet_version_full = utils.get_NET_native_version(idc.get_input_file_path())
+            dotnet_version_full = utils.get_NET_Native_version(idc.get_input_file_path())
             if dotnet_version_full == "unknown":
-                ida_kernwin.warning(".NET native framework could not be identified.\n"\
+                ida_kernwin.warning(".NET Native framework could not be identified.\n"\
                                     ".NIET needs it to work properly.")
 
             self.dotnet_version_full = dotnet_version_full

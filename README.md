@@ -51,7 +51,7 @@ Helpers are implemented to identify .NET Native framework versions and verifying
 
 ![Alt text](./img/dotNIET_display.png?raw=true "Display")
 
-*.NIET* can be launch using shortcut ```Alt-Shift-N``` or through the ```Edit/Plugins``` menu.
+*.NIET* can be launched using shortcut ```Alt-Shift-N``` or through the ```Edit/Plugins``` menu.
 
 Upon launch, the plugin tries to identify current binary .NET Native framework version. All you have to do is to select ```SharedLibrary.dll``` in the right version then click ```Run```.
 
@@ -86,4 +86,4 @@ Symbols are imported as is if possible but some corner cases may be encountered:
 
 ## Why such a name
 
-Because reversing .NET native is a nightmare
+Because reversing .NET Native is a nightmare
