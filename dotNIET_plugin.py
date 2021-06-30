@@ -206,6 +206,17 @@ class dotNIETForm_t(PluginForm):
             self.dll_input_path.setEnabled(True)
             self.cb_verify.setEnabled(True)
 
+    def disable_plugin_options(self):
+        self.btn_browse.setEnabled(False)
+        self.btn_run.setEnabled(False)
+        if self.cb_restore.isChecked():
+            self.cb_restore.toggle()
+        self.cb_restore.setEnabled(False)
+        if self.cb_verify.isChecked():
+            self.cb_verify.toggle()
+        self.cb_verify.setEnabled(False)
+        self.dll_input_path.setReadOnly(True)
+
     def OnCreate(self, form):
         # get parent widget
         parent = self.FormToPyQtWidget(form)
@@ -252,10 +263,17 @@ class dotNIETForm_t(PluginForm):
             if dotnet_version_full == "unknown":
                 ida_kernwin.warning(".NET Native framework could not be identified.\n"\
                                     ".NIET needs it to work properly.")
+            # assume pefile raised an error
+            elif "Error" in dotnet_version_full:
+                ida_kernwin.hide_wait_box()
+                ida_kernwin.warning("pefile: %s" % dotnet_version_full)
+                self.disable_plugin_options()
+                dotnet_version_full = "unsupported"
 
             self.dotnet_version_full = dotnet_version_full
             dotnet_version_full_text += dotnet_version_full
         ida_kernwin.hide_wait_box()
+
         label_dotnet_version_full = QtWidgets.QLabel(dotnet_version_full_text)
 
         # then we check if SharedLibrary.dll is an import
@@ -264,6 +282,7 @@ class dotNIETForm_t(PluginForm):
             ida_kernwin.warning("This binary does not import symbols from "
                                 "'SharedLibrary.dll' at runtime.\n.NIET is not"\
                                 " required")
+            self.disable_plugin_options()
 
         # create layout
         spacerItem = QtWidgets.QSpacerItem(5, 16)
